@@ -17,8 +17,8 @@ class SSSampleDataFilter {
     sampleData = data
   }
   
-  func filteredSamplesForSize(size:CGSize) -> [Int]{
-    var filterSamples = [UInt16]()
+  func filteredSamplesForSize(size:CGSize) -> [Int16]{
+    var filterSamples = [Int16]()
     
     if let sampleData = sampleData {
       let sampleCount = sampleData.length
@@ -30,12 +30,12 @@ class SSSampleDataFilter {
       var readBuffer = Array<UInt8>(count: 16 * 1024, repeatedValue: 0)
       var totalBytesRead = 0
       
-      let size = sizeof(UInt16)
+      let size = sizeof(Int16)
       while (totalBytesRead < sampleData.length) {
         let numberOfBytesRead = stream.read(&readBuffer, maxLength: size)
-        let u16: UInt16 = UnsafePointer<UInt16>(readBuffer).memory
+        let u16: Int16 = UnsafePointer<Int16>(readBuffer).memory
 
-        var sampleBin = [UInt16]()
+        var sampleBin = [Int16]()
         for _ in 0..<Int(binSize) {
           sampleBin.append(u16)
         }
@@ -44,10 +44,10 @@ class SSSampleDataFilter {
         totalBytesRead += numberOfBytesRead
       }
       
-      //plotArrayInPlayground(filterSamples, title: "Samples")
+      plotArrayInPlayground(filterSamples, title: "Samples")
     }
     
-    return [0]
+    return filterSamples
     
   }
 }
